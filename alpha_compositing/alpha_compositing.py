@@ -1,6 +1,6 @@
 from PIL import Image
 
-alpha = 0.8
+alpha = 0.5
 
 alpha_channel_filename = "alpha_channel.png"
 background_filename = "background.jpg"
@@ -35,14 +35,16 @@ for index_pixel in range(len(alpha_channel_pixels_out)):
     g_alpha = int((rf[1] * (ra[1] / 255)))
     b_alpha = int((rf[2] * (ra[2] / 255)))
 
-    if r_alpha == 0 & g_alpha == 0 & b_alpha == 0:
-        pixels_out.append((rb[0], rb[1], rb[2]))
-    else:
-        r = int((r_alpha) + ((1 - alpha) * rb[0]))
-        g = int((g_alpha) + ((1 - alpha) * rb[1]))
-        b = int((b_alpha) + ((1 - alpha) * rb[2]))
+    #
+    # if r_alpha == 0 & g_alpha == 0 & b_alpha == 0:
+    #     pixels_out.append((rb[0], rb[1], rb[2]))
+    # else:
 
-        pixels_out.append((r, g, b))
+    r = int((r_alpha) + (rb[0]))
+    g = int((g_alpha) + (rb[1]))
+    b = int((b_alpha) + (rb[2]))
+
+    pixels_out.append((r, g, b))
 
 image_out = Image.new(foreground.mode, foreground.size)
 image_out.putdata(pixels_out)
