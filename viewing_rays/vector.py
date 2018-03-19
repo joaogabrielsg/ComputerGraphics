@@ -46,13 +46,14 @@ class Vector():
 
     def sum_by_vector(self, vector):
         out_vector = []
-        for index, value in enumerate(self.vector):
+        for index, value in enumerate(list(self.vector)):
             out_vector.append(value + vector.vector[index])
 
         return Vector(out_vector)
 
     def subtract_by_vector(self, vector):
         out_vector = []
+        # print(self)
         for index, value in enumerate(self.vector):
             out_vector.append(value - vector.vector[index])
 

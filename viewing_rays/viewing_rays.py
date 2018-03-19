@@ -1,6 +1,7 @@
 import math
 import numpy
 from vector import Vector
+from sphere import Sphere
 from PIL import Image
 
 # matrix = numpy.zeros((640, 480), dtype=numpy.ndarray)
@@ -152,10 +153,52 @@ class Ray():
         return matrix
 
 
+    def image_spheres(self, spheres, matrix):
+
+        image = []
+
+        for index, direction in numpy.ndenumerate(matrix):
+
+            color = (0, 0, 0)
+            smaller_t = 1
+
+            for sphere in spheres:
+
+                teste = sphere.hit(direction, self.point_e)
+
+                if sphere.hit(direction, self.point_e):
+
+                    t = sphere.t(direction, self.point_e)
+
+                    if t < smaller_t:
+                        smaller_t = t
+                        color = sphere.color
+
+            image.append(color)
+
+        return image
+
+
+
+
 
 
 rays = Ray(e, d, top, bottom, right, left)
 
-print(rays.perspective_projection(50, 50))
+matrix = rays.perspective_projection(250, 250)
+
+spheres = [Sphere((0,0,0), 1, (100, 100, 100)), Sphere((2,-2,2), 2, (250, 250, 250))]
+
+image = rays.image_spheres(spheres, matrix)
+
+image_out = Image.new("RGBA", (250, 250))
+
+image_out.putdata(image)
+
+print(image_out)
+
+image_out.show()
+
+
 
 # rays.perspective_projection(640, 480)
