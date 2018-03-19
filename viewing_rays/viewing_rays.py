@@ -71,7 +71,7 @@ bottom = -5
 #
 #         delta -= 4 * (d * d) * ((numpy.dot(subtraction_e_c, subtraction_e_c)) - (r * r))
 #
-#     # - com o delta determinar o t
+#     # - com o delta determinar o t --------------------------------------------------------------------------
 #
 #         if (delta >= 0):
 #             T = ((subtraction_e_c[0] * d),
@@ -132,20 +132,19 @@ class Ray():
         self.v = Vector(numpy.cross(self.w.vector, self.u.vector))
 
     def perspective_projection(self, row, column):
+
         matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
 
         for index, pixel in numpy.ndenumerate(matrix):
+
             U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
             V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
 
             direction_v = self.v.multiply_by_number(V)
-
             direction_u = self.u.multiply_by_number(U)
-
             direction_w = self.w.multiply_by_number(d)
 
             direction = direction_u.sum_by_vector(direction_v)
-
             direction = direction.subtract_by_vector(direction_w)
 
             matrix[index[0]][index[1]] = direction.vector
@@ -153,6 +152,10 @@ class Ray():
         return matrix
 
 
+
+
 rays = Ray(e, d, top, bottom, right, left)
 
-print(rays.perspective_projection(640, 480))
+print(rays.perspective_projection(50, 50))
+
+# rays.perspective_projection(640, 480)

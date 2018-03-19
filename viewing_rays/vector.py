@@ -6,17 +6,10 @@ class Vector():
     def __init__(self, vector):
         self.vector = vector
 
-    # (vetor) / (||vetor||)
-    # @staticmethod
-    # def unit_vector(vector):
-    #     vector_module = numpy.linalg.norm(vector)
-    #     return [vector[0] / vector_module, vector[1] / vector_module, vector[2] / vector_module]
-
     def unit_vector(self):
         vector_module = numpy.linalg.norm(self.vector)
         return Vector([self.vector[0] / vector_module, self.vector[1] / vector_module, self.vector[2] / vector_module])
 
-    # @staticmethod
     def non_collinear_vector(self):
         t_min_index = 0
         t_min = 0
@@ -41,6 +34,13 @@ class Vector():
         vector = []
         for value in self.vector:
             vector.append(value + number)
+
+        return Vector(vector)
+
+    def subtract_by_number(self, number):
+        vector = []
+        for value in self.vector:
+            vector.append(value - number)
 
         return Vector(vector)
 
