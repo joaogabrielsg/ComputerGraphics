@@ -4,21 +4,6 @@ from vector import Vector
 from sphere import Sphere
 from PIL import Image
 
-# matrix = numpy.zeros((640, 480), dtype=numpy.ndarray)
-
-d = 4
-e = [2, -2, 3]
-
-spheres = [{"color": (100, 100, 100), "raio": 1, "center": (0, 0, 0)},
-           {"color": (250, 250, 250), "raio": 2, "center": (2, -2, 2)}]
-
-image = []
-
-left = -10
-right = 10
-top = 5
-bottom = -5
-
 class Ray():
 
     def __init__(self, point_e, distance, top, bottom, right, left):
@@ -32,11 +17,8 @@ class Ray():
         self.left = left
 
         self.w = self.point_e.unit_vector()
-
         self.t = self.w.non_collinear_vector()
-
         self.u = Vector(numpy.cross(self.w.vector, self.t.vector)).unit_vector()
-
         self.v = Vector(numpy.cross(self.w.vector, self.u.vector))
 
     def perspective_projection(self, row, column):
@@ -50,11 +32,9 @@ class Ray():
 
             direction_v = self.v.map(lambda value, index: value * V)
             direction_u = self.u.map(lambda value, index: value * U)
-            direction_w = self.w.map(lambda value, index: value * d)
+            direction_w = self.w.map(lambda value, index: value * self.distance)
 
-            # direction = direction_u.sum_by_vector(direction_v)
             direction = direction_u.map(lambda value, index: value + direction_v.vector[index])
-            # direction = direction.subtract_by_vector(direction_w)
             direction = direction.map(lambda value, index: value - direction_w.vector[index])
 
             matrix[index[0]][index[1]] = direction.vector
@@ -86,19 +66,17 @@ class Ray():
         return image
 
 
+image = []
 
+rays = Ray([2, -2, 3], 4, 5, -5, 10, -10)
 
-
-
-rays = Ray(e, d, top, bottom, right, left)
-
-matrix = rays.perspective_projection(250, 250)
+matrix = rays.perspective_projection(640, 480)
 
 spheres = [Sphere((0,0,0), 1, (100, 100, 100)), Sphere((2,-2,2), 2, (250, 250, 250))]
 
 image = rays.image_spheres(spheres, matrix)
 
-image_out = Image.new("RGBA", (250, 250))
+image_out = Image.new("RGBA", (640, 480))
 
 image_out.putdata(image)
 

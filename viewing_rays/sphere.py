@@ -43,9 +43,3 @@ class Sphere:
         t_second = (numpy.dot(Vector(ray_direction).map(lambda value, index: value * (-1)).vector, substraction_origin_center.vector) - math.sqrt(delta)) / numpy.dot(ray_direction, ray_direction)
 
         return min(t_first, t_second)
-
-
-
-
-
-
