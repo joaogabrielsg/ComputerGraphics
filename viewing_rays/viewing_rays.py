@@ -2,9 +2,10 @@ import math
 import numpy
 from vector import Vector
 from sphere import Sphere
-from PIL import Image
+from image import Image
 
-class Ray():
+
+class Ray:
 
     def __init__(self, point_e, distance, top, bottom, right, left):
 
@@ -26,7 +27,6 @@ class Ray():
         matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
 
         for index, pixel in numpy.ndenumerate(matrix):
-
             U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
             V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
 
@@ -37,43 +37,13 @@ class Ray():
             direction = direction_u.map(lambda value, index: value + direction_v.vector[index])
             direction = direction.map(lambda value, index: value + direction_w.vector[index])
 
-            matrix[index[0]][index[1]] = direction.vector
+            matrix[index[0]][index[1]] = (direction.vector, self.point_e)
 
         return matrix
 
 
-    def image_spheres(self, spheres, matrix):
-
-        image = []
-
-        for index, direction in numpy.ndenumerate(matrix):
-
-            color = (0, 0, 0)
-            smaller_t = 1
-
-            for sphere in spheres:
-
-                if sphere.hit(direction, self.point_e):
-
-                    t = sphere.t(direction, self.point_e)
-
-                    if t < smaller_t:
-                        smaller_t = t
-                        color = sphere.color
-
-            image.append(color)
-
-        return image
-
-
-image = []
-
 rays = Ray([10, 10, 10], 5, 5, -5, 5, -5)
+spheres = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250))]
 
-matrix = rays.perspective_projection(200, 200)
-spheres = [Sphere((0,0,0), 3, (150, 100, 150)), Sphere((2,-3,2), 5, (250, 250, 250))]
-image = rays.image_spheres(spheres, matrix)
-
-image_out = Image.new("RGBA", (200, 200))
-image_out.putdata(image)
-image_out.show()
+matrix = rays.perspective_projection(300, 200)
+Image.spheres_image(spheres, matrix, [300, 200])

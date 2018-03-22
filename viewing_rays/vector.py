@@ -1,6 +1,7 @@
 import numpy
 
-class Vector():
+
+class Vector:
 
     def __init__(self, vector):
         self.vector = vector
