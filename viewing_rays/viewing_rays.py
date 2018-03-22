@@ -35,7 +35,7 @@ class Ray():
             direction_w = self.w.map(lambda value, index: value * self.distance)
 
             direction = direction_u.map(lambda value, index: value + direction_v.vector[index])
-            direction = direction.map(lambda value, index: value - direction_w.vector[index])
+            direction = direction.map(lambda value, index: value + direction_w.vector[index])
 
             matrix[index[0]][index[1]] = direction.vector
 
@@ -68,18 +68,12 @@ class Ray():
 
 image = []
 
-rays = Ray([2, -2, 3], 4, 5, -5, 10, -10)
+rays = Ray([10, 10, 10], 5, 5, -5, 5, -5)
 
-matrix = rays.perspective_projection(640, 480)
-
-spheres = [Sphere((0,0,0), 1, (100, 100, 100)), Sphere((2,-2,2), 2, (250, 250, 250))]
-
+matrix = rays.perspective_projection(200, 200)
+spheres = [Sphere((0,0,0), 3, (150, 100, 150)), Sphere((2,-3,2), 5, (250, 250, 250))]
 image = rays.image_spheres(spheres, matrix)
 
-image_out = Image.new("RGBA", (640, 480))
-
+image_out = Image.new("RGBA", (200, 200))
 image_out.putdata(image)
-
-print(image_out)
-
 image_out.show()
