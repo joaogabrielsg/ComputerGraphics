@@ -22,17 +22,32 @@ class Ray:
         self.u = Vector(numpy.cross(self.w.vector, self.t.vector)).unit_vector()
         self.v = Vector(numpy.cross(self.w.vector, self.u.vector))
 
+    def get_U(self, index_i, row):
+        return self.left + (self.right - self.left) * (index_i + 0.5) / row
+
+    def get_V(self, index_j, column):
+        return self.bottom + (self.top - self.bottom) * (index_j + 0.5) / column
+
+    def perspective_direction(self, U, V):
+
+        return ((self.u.map(lambda value, index: value * U)).map(
+            lambda value, index: value + (self.v.map(lambda value, index: value * V)).vector[index])).map(
+            lambda value, index: value + (self.w.map(lambda value, index: value * self.distance)).vector[index])
+
+    def parallel_origin(self, U, V):
+
+        return (self.u.map(lambda value, index: value * U)).map(
+            lambda value, index: value + (self.v.map(lambda value, index: value * V)).vector[index] +
+                                 self.point_e.vector[index])
+
     def perspective_projection(self, row, column):
 
         matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
 
         for index, pixel in numpy.ndenumerate(matrix):
-            U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
-            V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
-
-            direction = ((self.u.map(lambda value, index: value * U)).map(lambda value, index: value + (self.v.map(lambda value, index: value * V)).vector[index])).map(lambda value, index: value + (self.w.map(lambda value, index: value * self.distance)).vector[index])
-
-            matrix[index[0]][index[1]] = (direction.vector, self.point_e)
+            matrix[index[0]][index[1]] = (self.perspective_direction(
+                self.get_U(index[0], row),
+                self.get_V(index[1], column)), self.point_e)
 
         return matrix
 
@@ -41,12 +56,9 @@ class Ray:
         matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
 
         for index, pixel in numpy.ndenumerate(matrix):
-            U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
-            V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
-
-            origin = (self.u.map(lambda value, index: value * U)).map(lambda value, index: value + (self.v.map(lambda value, index: value * V)).vector[index] + self.point_e.vector[index])
-
-            matrix[index[0]][index[1]] = (self.w.vector, origin)
+            matrix[index[0]][index[1]] = (self.w.vector, self.parallel_origin(
+                self.get_U(index[0], row),
+                self.get_V(index[1], column)))
 
         return matrix
 
