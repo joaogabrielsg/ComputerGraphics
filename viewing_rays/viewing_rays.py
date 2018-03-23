@@ -30,12 +30,7 @@ class Ray:
             U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
             V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
 
-            direction_v = self.v.map(lambda value, index: value * V)
-            direction_u = self.u.map(lambda value, index: value * U)
-            direction_w = self.w.map(lambda value, index: value * self.distance)
-
-            direction = direction_u.map(lambda value, index: value + direction_v.vector[index])
-            direction = direction.map(lambda value, index: value + direction_w.vector[index])
+            direction = ((self.u.map(lambda value, index: value * U)).map(lambda value, index: value + (self.v.map(lambda value, index: value * V)).vector[index])).map(lambda value, index: value + (self.w.map(lambda value, index: value * self.distance)).vector[index])
 
             matrix[index[0]][index[1]] = (direction.vector, self.point_e)
 
@@ -49,10 +44,7 @@ class Ray:
             U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
             V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
 
-            direction_v = self.v.map(lambda value, index: value * V)
-            direction_u = self.u.map(lambda value, index: value * U)
-
-            origin = direction_u.map(lambda value, index: value + direction_v.vector[index] + self.point_e.vector[index])
+            origin = (self.u.map(lambda value, index: value * U)).map(lambda value, index: value + (self.v.map(lambda value, index: value * V)).vector[index] + self.point_e.vector[index])
 
             matrix[index[0]][index[1]] = (self.w.vector, origin)
 
