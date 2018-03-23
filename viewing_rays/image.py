@@ -35,4 +35,4 @@ class Image:
 
             image.append(color)
 
-        Image.show(image, (image_size[0], image_size[1]))
+        Image.show(image, image_size[0], image_size[1])

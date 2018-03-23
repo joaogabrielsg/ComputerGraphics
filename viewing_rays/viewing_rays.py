@@ -41,9 +41,26 @@ class Ray:
 
         return matrix
 
+    def parallel_projection(self, row, column):
+
+        matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
+
+        for index, pixel in numpy.ndenumerate(matrix):
+            U = self.left + (self.right - self.left) * (index[0] + 0.5) / row
+            V = self.bottom + (self.top - self.bottom) * (index[1] + 0.5) / column
+
+            direction_v = self.v.map(lambda value, index: value * V)
+            direction_u = self.u.map(lambda value, index: value * U)
+
+            origin = direction_u.map(lambda value, index: value + direction_v.vector[index] + self.point_e.vector[index])
+
+            matrix[index[0]][index[1]] = (self.w.vector, origin)
+
+        return matrix
+
 
 rays = Ray([10, 10, 10], 5, 5, -5, 5, -5)
 spheres = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250))]
 
-matrix = rays.perspective_projection(300, 200)
-Image.spheres_image(spheres, matrix, [300, 200])
+matrix = rays.perspective_projection(200, 200)
+Image.spheres_image(spheres, matrix, [200, 200])
