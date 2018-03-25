@@ -56,7 +56,7 @@ class Ray:
         matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
 
         for index, pixel in numpy.ndenumerate(matrix):
-            matrix[index[0]][index[1]] = (self.w.vector, self.parallel_origin(
+            matrix[index[0]][index[1]] = (self.w, self.parallel_origin(
                 self.get_U(index[0], row),
                 self.get_V(index[1], column)))
 
@@ -66,5 +66,5 @@ class Ray:
 rays = Ray([10, 10, 10], 5, 5, -5, 5, -5)
 spheres = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250))]
 
-matrix = rays.perspective_projection(200, 200)
+matrix = rays.parallel_projection(200, 200)
 Image.spheres_image(spheres, matrix, [200, 200])
