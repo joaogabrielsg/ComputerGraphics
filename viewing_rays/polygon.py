@@ -1,63 +1,48 @@
-import math
 import numpy
-from vector import Vector
-from sphere import Sphere
-from image import Image
+from triangle import Triangle
 
 
 class Polygon:
 
     def __init__(self, points, color):
         self.color = color
-        self.points = points
+        self.triangles = Polygon.divide_into_triangles(points, color)
+        self.triangle_touched = None
 
-    def get_A(self, direction):
+    @staticmethod
+    def divide_into_triangles(points, color):
 
-        matrix = []
+        triangles = []
 
-        for index, value in enumerate(direction.vector):
-            matrix.append([(self.points[0][index] - self.points[1][index]),
-                           (self.points[0][index] - self.points[2][index]),
-                           (value)])
+        first_point = points.pop(0)
 
-        return numpy.linalg.det(matrix)
+        print(first_point)
 
-    def get_beta(self, direction, origin):
+        for index, point in enumerate(points):
+            if index != (len(points) - 1):
+                triangles.append(Triangle((first_point, point, points[index + 1]), color))
 
-        matrix = []
-
-        for index, value in enumerate(direction.vector):
-            matrix.append([(self.points[0][index] - origin.vector[index]),
-                           (self.points[0][index] - self.points[2][index]),
-                           (value)])
-
-        return numpy.linalg.det(matrix) / self.get_A(direction)
-
-    def get_gama(self, direction, origin):
-
-        matrix = []
-
-        for index, value in enumerate(direction.vector):
-            matrix.append([(self.points[0][index] - self.points[1][index]),
-                           (self.points[0][index] - origin.vector[index]),
-                           (value)])
-
-        return numpy.linalg.det(matrix) / self.get_A(direction)
+        return triangles
 
     def hit(self, ray_direction, ray_origin):
 
-        beta = self.get_beta(ray_direction, ray_origin)
-        gama = self.get_gama(ray_direction, ray_origin)
-
-        return True if beta > 0.0 and gama > 0.0 and beta + gama < 1.0 else False
+        for triangle in self.triangles:
+            if triangle.hit(ray_direction, ray_origin):
+                self.triangle_touched = triangle
+                return True
+        return False
 
     def get_minimum_t(self, ray_direction, ray_origin):
 
-        matrix = []
+        return self.triangle_touched.get_minimum_t(ray_direction, ray_origin)
 
-        for index, value in enumerate(ray_origin.vector):
-            matrix.append([(self.points[0][index] - self.points[1][index]),
-                           (self.points[0][index] - self.points[2][index]),
-                           (self.points[0][index] - ray_origin.vector[index])])
+        # smaller_t = 1000
+        #
+        # for triangle in self.triangles:
+        #     t = triangle.get_minimum_t(ray_direction, ray_origin)
+        #     if t < smaller_t:
+        #         smaller_t = t
+        #
+        # return smaller_t
 
-        return numpy.linalg.det(matrix) / self.get_A(ray_direction)
+

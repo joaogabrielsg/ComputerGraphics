@@ -1,9 +1,9 @@
-import math
 import numpy
 from vector import Vector
 from sphere import Sphere
 from image import Image
 from polygon import Polygon
+from triangle import Triangle
 
 
 class Ray:
@@ -66,10 +66,22 @@ class Ray:
 
 rays = Ray([10, 10, 10], 5, 5, -5, 5, -5)
 spheres = Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250))
-# polygon = Polygon([[0, 0, 0, ], [4, 0, 0], [2, 4, 0]], (200, 200, 200))
+# triangle = Triangle([[0, 0, 0, ], [4, 0, 0], [2, 4, 0]], (200, 200, 200))
 
-objects = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[4, 0, 0], [8, 0, 0], [6, 4, 0]], (200, 200, 200))]
+# polygon = Polygon([[0, 0, 0], [4, 0, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))
 
-matrix = rays.parallel_projection(200, 200)
+
+objects = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 2, 0], [0, 4, 0]], (200, 200, 200))]
+objects2 = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
+objects3 = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [6, 2, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
+
+
+matrix = rays.perspective_projection(200, 200)
 # Image.generate_spheres_image(spheres, matrix, [200, 200])
 Image.generate_objects_image(objects, matrix, [200, 200])
+Image.generate_objects_image(objects2, matrix, [200, 200])
+Image.generate_objects_image(objects3, matrix, [200, 200])
+
+
+
+
