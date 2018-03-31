@@ -12,7 +12,7 @@ class Image:
         image_out.show()
 
     @staticmethod
-    def spheres_image(spheres, matrix, image_size):
+    def generate_spheres_image(spheres, matrix, image_size):
         # matrix: first = direction
         #         second = origin
 
@@ -32,6 +32,30 @@ class Image:
                     if t < smaller_t:
                         smaller_t = t
                         color = sphere.color
+
+            image.append(color)
+
+        Image.show(image, image_size[0], image_size[1])
+
+    @staticmethod
+    def generate_objects_image(polygons, matrix, image_size):
+
+        image = []
+
+        for index, value in numpy.ndenumerate(matrix):
+
+            color = (0, 0, 0)
+            smaller_t = 1
+
+            for polygon in polygons:
+
+                if polygon.hit(value[0], value[1]):
+
+                    t = polygon.get_minimum_t(value[0], value[1])
+
+                    if t < smaller_t:
+                        smaller_t = t
+                        color = polygon.color
 
             image.append(color)
 
