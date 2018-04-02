@@ -64,20 +64,18 @@ class Ray:
         return matrix
 
 
+
 rays = Ray([10, 10, 10], 5, 5, -5, 5, -5)
-spheres = Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250))
-# triangle = Triangle([[0, 0, 0, ], [4, 0, 0], [2, 4, 0]], (200, 200, 200))
 
-# polygon = Polygon([[0, 0, 0], [4, 0, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))
+#Criacao dos objetos que vão ser exibidos na imagem
+objects = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 2, 0], [0, 4, 0]], (200, 200, 200))]
+objects2 = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
+objects3 = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [6, 2, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
 
-
-objects = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 2, 0], [0, 4, 0]], (200, 200, 200))]
-objects2 = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
-objects3 = [Sphere((0, 0, 0), 2, (150, 100, 150)), Sphere((2, -3, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [6, 2, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
-
-
+#definição do tamanho da imagem
 matrix = rays.perspective_projection(200, 200)
-# Image.generate_spheres_image(spheres, matrix, [200, 200])
+
+#Inserindo objetos na imagem
 Image.generate_objects_image(objects, matrix, [200, 200])
 Image.generate_objects_image(objects2, matrix, [200, 200])
 Image.generate_objects_image(objects3, matrix, [200, 200])
