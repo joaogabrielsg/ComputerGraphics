@@ -5,12 +5,12 @@ import math
 
 class Sphere:
     def __init__(self, center, ray, color):
-        self.center = Vector(center)
+        self.center = center
         self.ray = ray
         self.color = color
 
     def hit(self, ray_direction, ray_origin):
-        subtract_origin_center = ray_origin.map(lambda value, index: value - self.center.vector[index])
+        subtract_origin_center = ray_origin.map(lambda value, index: value - self.center[index])
 
         delta = (math.pow((numpy.dot(ray_direction.map(lambda value, index: value * 2).vector,
                                      subtract_origin_center.vector)), 2)) - (
@@ -21,7 +21,7 @@ class Sphere:
         return False if delta < 0 else True
 
     def get_minimum_t(self, ray_direction, ray_origin):
-        subtract_origin_center = ray_origin.map(lambda value, index: value - self.center.vector[index])
+        subtract_origin_center = ray_origin.map(lambda value, index: value - self.center[index])
 
         delta = (math.pow((numpy.dot(ray_direction.vector,
                                      subtract_origin_center.vector)), 2)) - (
@@ -37,3 +37,19 @@ class Sphere:
                                                                                              ray_direction.vector)
 
         return min(t_first, t_second)
+
+    def lambert(self, ray_direction, ray_origin, t, lamp):
+
+        p = ray_direction.map(lambda value, index: value * t + ray_origin.vector[index]).vector
+        n = Vector.init_with_points(p, self.center).unit_vector()
+        l = Vector.init_with_points(p, lamp.position).unit_vector()
+
+        pixel_color = []
+
+        for color in self.color:
+            pixel_color.append(color * lamp.intensity * max(0, numpy.dot(n.vector, l.vector)))
+
+        return (int(pixel_color[0]),
+                int(pixel_color[1]),
+                int(pixel_color[2]))
+

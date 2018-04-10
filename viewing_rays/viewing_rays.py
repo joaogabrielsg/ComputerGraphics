@@ -2,6 +2,7 @@ import numpy
 from vector import Vector
 from sphere import Sphere
 from image import Image
+from lamp import Lamp
 from polygon import Polygon
 from triangle import Triangle
 
@@ -72,13 +73,16 @@ objects = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 2
 objects2 = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
 objects3 = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 250, 250)), Polygon([[0, 0, 0], [4, 0, 0], [6, 2, 0], [4, 4, 0], [0, 4, 0]], (200, 200, 200))]
 
+
+objects3 = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 250, 250))]
+
+lamp = Lamp(1, [100, 100, 100], [-10, -10, -10])
+
 #definição do tamanho da imagem
 matrix = rays.perspective_projection(200, 200)
 
 #Inserindo objetos na imagem
-Image.generate_objects_image(objects, matrix, [200, 200])
-Image.generate_objects_image(objects2, matrix, [200, 200])
-Image.generate_objects_image(objects3, matrix, [200, 200])
+Image.generate_spheres_image(objects3, matrix, [200, 200], lamp)
 
 
 

@@ -12,7 +12,7 @@ class Image:
         image_out.show()
 
     @staticmethod
-    def generate_spheres_image(spheres, matrix, image_size):
+    def generate_spheres_image(spheres, matrix, image_size, lamp):
         # matrix: first = direction
         #         second = origin
 
@@ -31,7 +31,7 @@ class Image:
 
                     if t < smaller_t:
                         smaller_t = t
-                        color = sphere.color
+                        color = sphere.lambert(value[0], value[1], smaller_t, lamp)
 
             image.append(color)
 
