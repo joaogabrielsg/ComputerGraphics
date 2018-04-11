@@ -72,9 +72,3 @@ class Sphere:
         return (int(pixel_color[0]),
                 int(pixel_color[1]),
                 int(pixel_color[2]))
-
-
-
-
-
-
