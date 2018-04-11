@@ -4,7 +4,7 @@ from sphere import Sphere
 from image import Image
 from lamp import Lamp
 from polygon import Polygon
-from triangle import Triangle
+from environment import Environment
 
 
 class Ray:
@@ -78,11 +78,14 @@ objects3 = [Sphere((-4, 0, 0), 2, (150, 100, 150)), Sphere((2, -5, 2), 3, (250, 
 
 lamp = Lamp(1, [100, 100, 100], [-10, -10, -10])
 
+environment = Environment(0.1, [40, 100, 150])
+
+
 #definição do tamanho da imagem
 matrix = rays.perspective_projection(200, 200)
 
 #Inserindo objetos na imagem
-Image.generate_spheres_image(objects3, matrix, [200, 200], lamp)
+Image.generate_spheres_image(objects3, matrix, [200, 200], lamp, 10, environment)
 
 
 

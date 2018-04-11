@@ -46,10 +46,35 @@ class Sphere:
 
         pixel_color = []
 
-        for color in self.color:
-            pixel_color.append(color * lamp.intensity * max(0, numpy.dot(n.vector, l.vector)))
+        for rgb_color in self.color:
+            pixel_color.append(rgb_color * lamp.intensity * max(0, numpy.dot(n.vector, l.vector)))
 
         return (int(pixel_color[0]),
                 int(pixel_color[1]),
                 int(pixel_color[2]))
+
+    def blihn_pmong(self, ray_direction, ray_origin, t, lamp, sensibility, environment):
+
+        p = ray_direction.map(lambda value, index: value * t + ray_origin.vector[index]).vector
+        n = Vector.init_with_points(p, self.center).unit_vector()
+        l = Vector.init_with_points(p, lamp.position).unit_vector()
+        v = ray_direction.unit_vector()
+        h = v.map(lambda value, index: value + l.vector[index]).unit_vector()
+
+        pixel_color = []
+        lambert = self.lambert(ray_direction, ray_origin, t, lamp)
+
+        for index, rgb_color in enumerate(self.color):
+            pixel_color.append(environment.intensity * environment.color[index] +
+                               lambert[index] +
+                               lamp.color[index] * lamp.intensity * math.pow(max(0, numpy.dot(n.vector, h.vector)), sensibility))
+
+        return (int(pixel_color[0]),
+                int(pixel_color[1]),
+                int(pixel_color[2]))
+
+
+
+
+
 
