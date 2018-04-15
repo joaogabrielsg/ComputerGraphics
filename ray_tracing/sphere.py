@@ -1,5 +1,5 @@
 import numpy
-from vector import Vector
+from ray_tracing.vector import Vector
 import math
 
 
@@ -25,9 +25,10 @@ class Sphere:
 
         delta = (math.pow((numpy.dot(ray_direction.vector,
                                      subtract_origin_center.vector)), 2)) - (
-                        numpy.dot(ray_direction.vector, ray_direction.vector) * ((numpy.dot(subtract_origin_center.vector,
-                                                                              subtract_origin_center.vector)) - math.pow(
-                    self.ray, 2)))
+                        numpy.dot(ray_direction.vector, ray_direction.vector) * (
+                            (numpy.dot(subtract_origin_center.vector,
+                                       subtract_origin_center.vector)) - math.pow(
+                        self.ray, 2)))
 
         t_first = (numpy.dot(ray_direction.map(lambda value, index: value * (-1)).vector,
                              subtract_origin_center.vector) + math.sqrt(delta)) / numpy.dot(ray_direction.vector,
@@ -67,7 +68,8 @@ class Sphere:
         for index, rgb_color in enumerate(self.color):
             pixel_color.append(environment.intensity * environment.color[index] +
                                lambert[index] +
-                               lamp.color[index] * lamp.intensity * math.pow(max(0, numpy.dot(n.vector, h.vector)), sensibility))
+                               lamp.color[index] * lamp.intensity * math.pow(max(0, numpy.dot(n.vector, h.vector)),
+                                                                             sensibility))
 
         return (int(pixel_color[0]),
                 int(pixel_color[1]),

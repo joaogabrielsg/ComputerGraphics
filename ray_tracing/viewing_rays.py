@@ -1,5 +1,5 @@
 import numpy
-from vector import Vector
+from ray_tracing.vector import Vector
 
 
 class Ray:

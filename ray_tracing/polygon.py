@@ -1,4 +1,4 @@
-from triangle import Triangle
+from ray_tracing.triangle import Triangle
 
 
 class Polygon:
@@ -14,8 +14,6 @@ class Polygon:
         triangles = []
 
         first_point = points.pop(0)
-
-        print(first_point)
 
         for index, point in enumerate(points):
             if index != (len(points) - 1):

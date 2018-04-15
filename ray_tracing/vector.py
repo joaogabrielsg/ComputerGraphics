@@ -6,15 +6,15 @@ class Vector:
     def __init__(self, vector):
         self.vector = vector
 
-    @staticmethod
-    def init_with_points(start_point, end_point):
+    @classmethod
+    def init_with_points(cls, start_point, end_point):
 
         vector = []
         print(start_point.__len__(), end_point.__len__())
         for index, point in enumerate(end_point):
             vector.append(point - start_point[index])
 
-        return Vector(vector)
+        return cls(vector)
 
     def unit_vector(self):
         vector_module = numpy.linalg.norm(self.vector)
