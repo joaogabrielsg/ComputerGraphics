@@ -13,7 +13,7 @@ def main():
     rays = Ray(point_e=[10, 10, 10], distance=5, top=5, bottom=-5, right=5, left=-5)
 
     # Setting the Ray-tracing matrix size
-    ray_matrix = rays.parallel_projection(row=512, column=512)
+    ray_matrix = rays.perspective_projection(row=100, column=100)
 
     # Creating objects to be displayed in the image
     objects = [Sphere(center=(-4, 0, 0), ray=2, color=(150, 100, 150)),
@@ -31,14 +31,14 @@ def main():
     spheres = [Sphere(center=(-4, 0, 0), ray=2, color=(150, 100, 150)),
                Sphere(center=(2, -5, 2), ray=3, color=(250, 250, 250))]
 
-    # Creating ilumination points
-    lamp = Lamp(intensity=1, color=[100, 100, 100], position=[-10, -10, 10])
+    # Creating illumination points
+    lamps = [Lamp(intensity=1, color=[100, 100, 100], position=[-10, -10, 10]), Lamp(intensity=0.5, color=[100, 100, 100], position=[0, 0, 0])]
 
     # Creating environment
     environment = Environment(intensity=0.1, color=[40, 100, 150])
 
     # Inserting objects in the image
-    Image.generate_spheres_image(spheres=spheres, matrix=ray_matrix, image_size=[512, 512], lamp=lamp, sensibility=10,
+    Image.generate_spheres_image(spheres=spheres, matrix=ray_matrix, image_size=[100, 100], lamps=lamps, sensibility=10,
                                  environment=environment)
 
 
