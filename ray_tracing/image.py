@@ -38,7 +38,7 @@ class Image:
         Image.show(image, image_size[0], image_size[1])
 
     @staticmethod
-    def generate_objects_image(polygons, matrix, image_size):
+    def generate_objects_image(polygons, matrix, image_size, lamps, sensibility, environment):
 
         image = []
 
@@ -55,7 +55,7 @@ class Image:
 
                     if t < smaller_t:
                         smaller_t = t
-                        color = polygon.color
+                        color = polygon.blihn_pmong(value[0], value[1], smaller_t, lamps, sensibility, environment)
 
             image.append(color)
 
