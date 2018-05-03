@@ -48,6 +48,27 @@ class Ray:
 
         return matrix
 
+    def perspective_projection_2d(self, row, column, matrix_2d):
+
+        matrix = numpy.zeros((row, column), dtype=numpy.ndarray)
+
+        # delta_U = self.left + (self.right - self.left) * (row + 0.5) / row
+        # delta_V = self.bottom + (self.top - self.bottom) * (column + 0.5) / column
+        delta_U = 0
+        delta_V = 0
+
+        for index, pixel in numpy.ndenumerate(matrix):
+
+            matrix_result = numpy.matmul([self.get_U(index[0], row) + delta_U, self.get_V(index[1], column) + delta_V], matrix_2d)
+
+            matrix[index[0]][index[1]] = (self.get_perspective_direction(
+                matrix_result[0] - delta_U,
+                matrix_result[1] - delta_V), self.point_e)
+
+        return matrix
+
+
+
     def parallel_projection(self, row, column):
 
         matrix = numpy.zeros((row, column), dtype=numpy.ndarray)

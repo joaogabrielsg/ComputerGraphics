@@ -1,3 +1,5 @@
+import math
+
 from ray_tracing.viewing_rays import Ray
 from ray_tracing.sphere import Sphere
 from ray_tracing.image import Image
@@ -10,10 +12,28 @@ def main():
     # This is an example of how you can use this module, creating objects and displaying them on an image.
 
     # Starting Ray-Tracing
-    rays = Ray(point_e=[10, 10, 10], distance=5, top=5, bottom=-5, right=5, left=-5)
+    rays = Ray(point_e=[10, 10, -10], distance=5, top=5, bottom=-5, right=5, left=-5)
+
+    #image size
+    image_size = [100, 100]
+
+    cos = math.cos(180)
+    sen = math.sin(180)
 
     # Setting the Ray-tracing matrix size
-    ray_matrix = rays.perspective_projection(row=512, column=512)
+    ray_matrix_normal = rays.perspective_projection(row=image_size[0], column=image_size[1])
+
+    # Setting the Ray-tracing rotation 180
+    ray_matrix_rotate = rays.perspective_projection_2d(row=image_size[0], column=image_size[1], matrix_2d=[(cos, sen), (-sen, cos)])
+
+    # Setting the Ray-tracing scale 2x size
+    ray_matrix_scale = rays.perspective_projection_2d(row=image_size[0], column=image_size[1], matrix_2d=[(0.5, 0.0), (0.0, 0.5)])
+
+    # Setting the Ray-tracing reflection
+    ray_matrix_reflection = rays.perspective_projection_2d(row=image_size[0], column=image_size[1], matrix_2d=[(-1, 0), (0, 1)])
+
+    # Setting the Ray-tracing shear
+    ray_matrix_shear = rays.perspective_projection_2d(row=image_size[0], column=image_size[1], matrix_2d=[(1, 2), (0, 1)])
 
     # Creating objects to be displayed in the image
     objects = [Sphere(center=(-4, 0, 0), ray=2, color=(150, 100, 150)),
@@ -38,8 +58,11 @@ def main():
     environment = Environment(intensity=0.1, color=[40, 100, 150])
 
     # Inserting objects in the image
-    Image.generate_objects_image(polygons=objects3, matrix=ray_matrix, image_size=[512, 512], lamps=lamps, sensibility=10,
-                                 environment=environment)
+    Image.generate_objects_image(polygons=objects3, matrix=ray_matrix_normal, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
+    Image.generate_objects_image(polygons=objects3, matrix=ray_matrix_scale, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
+    Image.generate_objects_image(polygons=objects3, matrix=ray_matrix_reflection, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
+    Image.generate_objects_image(polygons=objects3, matrix=ray_matrix_rotate, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
+    Image.generate_objects_image(polygons=objects3, matrix=ray_matrix_shear, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
 
 
 if __name__ == '__main__':
