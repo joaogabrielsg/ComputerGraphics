@@ -8,10 +8,15 @@ class Cube:
         self.square_touched = None
 
     @staticmethod
-    def divide_into_faces(points, side_size):
-        faces = []
-
-
+    def divide_into_faces(points):
+        faces = [
+            ([points[7], points[6], points[5], points[4]]),
+            ([points[0], points[1], points[2], points[3]]),
+            ([points[1], points[5], points[6], points[2]]),
+            ([points[2], points[6], points[7], points[3]]),
+            ([points[3], points[7], points[4], points[0]]),
+            ([points[4], points[5], points[1], points[0]]),
+        ]
 
         return faces
 
@@ -60,8 +65,19 @@ class Cube:
 
     @staticmethod
     def divide_into_cubes(center, side_size):
-        squares = Cube.divide_into_nine_squares(
-            [(0, 0, 0), (10, 0, 0), (10, 10, 0), (0, 10, 0), (0, 0, 10), (10, 0, 10), (10, 10, 10), (0, 10, 10)], 10)
+
+        squares = []
+        squares_faces = []
+
+        faces = Cube.divide_into_faces(
+            [(0, 0, 0), (10, 0, 0), (10, 10, 0), (0, 10, 0), (0, 0, 10), (10, 0, 10), (10, 10, 10), (0, 10, 10)])
+
+        for face in faces:
+            squares_faces.append(Cube.divide_into_nine_squares(face, 10))
+
+        for face in squares_faces:
+            for square in face:
+                squares.append(square)
 
         return squares
 

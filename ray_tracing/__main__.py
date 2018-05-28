@@ -12,7 +12,7 @@ def main():
     # This is an example of how you can use this module, creating objects and displaying them on an image.
 
     # Starting Ray-Tracing
-    rays = Ray(point_e=[10, 10, -10], distance=10, top=10, bottom=-10, right=10, left=-10)
+    rays = Ray(point_e=[20, 20, -20], distance=20, top=20, bottom=-20, right=20, left=-20)
 
     #image size
     image_size = [100, 100]
