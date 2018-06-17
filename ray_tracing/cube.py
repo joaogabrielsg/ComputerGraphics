@@ -2,17 +2,31 @@ from ray_tracing.polygon import Polygon
 from ray_tracing.vector import Vector
 
 
-colors = [(255, 0, 0),
-          (50, 205, 50),
-          (0, 0, 255),
-          (255, 255, 255),
-          (255, 255, 0),
-          (255, 168, 0)]
+colors = [(255, 0, 0), #Vermelho
+          (50, 205, 50), #Verde
+          (0, 0, 255), #Azul
+          (255, 255, 255), #Branco
+          (255, 255, 0), #Amarelo
+          (255, 127, 0)] #Laranja
 
 class Cube:
     def __init__(self, center, side_size):
+        self.box = Cube.create_box(
+            [(0, 0, 0), (10, 0, 0), (10, 10, 0), (0, 10, 0), (0, 0, 10), (10, 0, 10), (10, 10, 10), (0, 10, 10)])
         self.squares = Cube.divide_into_cubes(center, side_size)
         self.square_touched = None
+
+
+    @staticmethod
+    def create_box(points):
+        box_faces = []
+        faces = Cube.divide_into_faces(points)
+
+        for face in faces:
+            box_faces.append(Polygon(points=face, color=(0, 0, 0)))
+
+        return box_faces
+
 
     @staticmethod
     def divide_into_faces(points):
@@ -21,8 +35,8 @@ class Cube:
             ([points[1], points[5], points[6], points[2]]),
             ([points[7], points[6], points[5], points[4]]),
             ([points[0], points[1], points[2], points[3]]),
-            ([points[3], points[7], points[4], points[0]]),
             ([points[4], points[5], points[1], points[0]]),
+            ([points[3], points[7], points[4], points[0]]),
         ]
 
         return faces
@@ -90,10 +104,13 @@ class Cube:
 
     def hit(self, ray_direction, ray_origin):
 
-        for square in self.squares:
-            if square.hit(ray_direction, ray_origin):
-                self.square_touched = square
-                return True
+        for face in self.box:
+            if face.hit(ray_direction, ray_origin):
+                for square in self.squares:
+                    if square.hit(ray_direction, ray_origin):
+                        self.square_touched = square
+                        return True
+                return False
         return False
 
     def get_minimum_t(self, ray_direction, ray_origin):

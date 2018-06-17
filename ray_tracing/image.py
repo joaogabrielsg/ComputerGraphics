@@ -48,10 +48,10 @@ class Image:
 
             for polygon in polygons:
 
-                percent = (((index[0] * matrix.__len__()) + index[1]) / (numpy.shape(matrix)[0] * numpy.shape(matrix)[1])) * 100
-                os.system('cls' if os.name == 'nt' else 'clear')
+                percent = (((index[0] * matrix.__len__()) + index[1]) / ((numpy.shape(matrix)[0]) * (numpy.shape(matrix)[1]))) * 100
 
-                print("Matriz concluida: {percent}%".format(percent=percent))
+                os.system('cls' if os.name == 'nt' else 'clear')
+                print("Porcentagem concluida: {percent}%".format(percent=percent))
 
                 if polygon.hit(value[0], value[1]):
 
