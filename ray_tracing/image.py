@@ -1,5 +1,6 @@
 from PIL import Image as PilImage
 import numpy
+import os
 
 
 class Image:
@@ -13,8 +14,6 @@ class Image:
 
     @staticmethod
     def generate_spheres_image(spheres, matrix, image_size, lamps, sensibility, environment):
-        # matrix: first = direction
-        #         second = origin
 
         image = []
 
@@ -48,6 +47,11 @@ class Image:
             smaller_t = 1
 
             for polygon in polygons:
+
+                percent = (((index[0] * matrix.__len__()) + index[1]) / (numpy.shape(matrix)[0] * numpy.shape(matrix)[1])) * 100
+                os.system('cls' if os.name == 'nt' else 'clear')
+
+                print("Matriz concluida: {percent}%".format(percent=percent))
 
                 if polygon.hit(value[0], value[1]):
 

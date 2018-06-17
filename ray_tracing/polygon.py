@@ -16,6 +16,7 @@ class Polygon:
 
         triangles = []
 
+
         first_point = points.pop(0)
 
         for index, point in enumerate(points):

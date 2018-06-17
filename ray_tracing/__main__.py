@@ -7,6 +7,7 @@ from ray_tracing.lamp import Lamp
 from ray_tracing.polygon import Polygon
 from ray_tracing.environment import Environment
 from ray_tracing.cube import Cube
+from PIL import Image as ImagePil
 
 def main():
     # This is an example of how you can use this module, creating objects and displaying them on an image.
@@ -15,7 +16,7 @@ def main():
     rays = Ray(point_e=[20, 20, -20], distance=20, top=20, bottom=-20, right=20, left=-20)
 
     #image size
-    image_size = [100, 100]
+    image_size = [70, 70]
 
     cos = math.cos(180)
     sen = math.sin(180)
@@ -67,6 +68,7 @@ def main():
     # Image.generate_objects_image(polygons=objects3, matrix=ray_matrix_shear, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
 
     Image.generate_objects_image(polygons=cube, matrix=ray_matrix_normal, image_size=image_size, lamps=lamps, sensibility=10, environment=environment)
+
 
 if __name__ == '__main__':
     main()

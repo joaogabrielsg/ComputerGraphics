@@ -2,6 +2,13 @@ from ray_tracing.polygon import Polygon
 from ray_tracing.vector import Vector
 
 
+colors = [(255, 0, 0),
+          (50, 205, 50),
+          (0, 0, 255),
+          (255, 255, 255),
+          (255, 255, 0),
+          (255, 168, 0)]
+
 class Cube:
     def __init__(self, center, side_size):
         self.squares = Cube.divide_into_cubes(center, side_size)
@@ -10,10 +17,10 @@ class Cube:
     @staticmethod
     def divide_into_faces(points):
         faces = [
+            ([points[2], points[6], points[7], points[3]]),
+            ([points[1], points[5], points[6], points[2]]),
             ([points[7], points[6], points[5], points[4]]),
             ([points[0], points[1], points[2], points[3]]),
-            ([points[1], points[5], points[6], points[2]]),
-            ([points[2], points[6], points[7], points[3]]),
             ([points[3], points[7], points[4], points[0]]),
             ([points[4], points[5], points[1], points[0]]),
         ]
@@ -59,7 +66,7 @@ class Cube:
                         (points[0][2] + (unit_x_vector.vector[2] * x * (side_size / 3)) + (
                                 unit_y_vector.vector[2] * (y + 1) * (side_size / 3)))),
                        ],
-                                       color=(50 * y, 50 * x, 100)))
+                                       color=(colors[x+y])))
 
         return squares
 
