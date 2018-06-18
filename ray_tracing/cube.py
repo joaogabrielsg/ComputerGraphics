@@ -106,14 +106,25 @@ class Cube:
 
         for face in self.box:
             if face.hit(ray_direction, ray_origin):
+
+                self.square_touched = None
+
                 for square in self.squares:
                     if square.hit(ray_direction, ray_origin):
-                        self.square_touched = square
-                        return True
-                return False
+                        if self.square_touched is None:
+                            self.square_touched = square
+                        else:
+                            if self.square_touched.get_minimum_t(ray_direction, ray_origin) > square.get_minimum_t(ray_direction, ray_origin):
+                                self.square_touched = square
+
+                return True
+
         return False
 
     def get_minimum_t(self, ray_direction, ray_origin):
+
+        if self.square_touched is None:
+            return 1000
 
         return self.square_touched.get_minimum_t(ray_direction, ray_origin)
 

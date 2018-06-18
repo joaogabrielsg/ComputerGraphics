@@ -28,10 +28,10 @@ def main():
     # Creating environment
     environment = Environment(intensity=0.1, color=[40, 100, 150])
 
-    for i in range(10, 50, 5):
+    for i in range(10, 150, 25):
 
         # Starting Ray-Tracing
-        rays = Ray(point_e=[-i, i, 20], distance=20, top=20, bottom=-20, right=20, left=-20)
+        rays = Ray(point_e=[i, -i, 20], distance=20, top=20, bottom=-20, right=20, left=-20)
 
         # Setting the Ray-tracing matrix size
         ray_matrix_normal = rays.parallel_projection(row=image_size[0], column=image_size[1])
