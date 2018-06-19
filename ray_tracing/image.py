@@ -46,20 +46,27 @@ class Image:
             color = (0, 0, 0)
             smaller_t = 1
 
-            for polygon in polygons:
+            percentage = (image_size[0] + (image_size[1] * image_size[0]) ) * 0.48
+            percentage_final = (image_size[0] + (image_size[1] * image_size[0]) ) * 0.88
 
-                percent = (((index[0] * matrix.__len__()) + index[1]) / ((numpy.shape(matrix)[0]) * (numpy.shape(matrix)[1]))) * 100
+            if ((index[0] * matrix.__len__()) + index[1] < percentage or (index[0] * matrix.__len__()) + index[1] > percentage_final ):
+                color = (0, 0, 0)
+            else:
+                for polygon in polygons:
 
-                os.system('cls' if os.name == 'nt' else 'clear')
-                print("Porcentagem concluida: {percent}%".format(percent=percent))
+                    percent = (((index[0] * matrix.__len__()) + index[1]) / ((numpy.shape(matrix)[0]) * (numpy.shape(matrix)[1]))) * 100
 
-                if polygon.hit(value[0], value[1]):
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                    print("Porcentagem concluida: {percent}%".format(percent=percent))
 
-                    t = polygon.get_minimum_t(value[0], value[1])
+                    if polygon.hit(value[0], value[1]):
 
-                    if t < smaller_t:
-                        smaller_t = t
-                        color = polygon.blihn_pmong(value[0], value[1], smaller_t, lamps, sensibility, environment)
+                        t = polygon.get_minimum_t(value[0], value[1])
+
+                        if t < smaller_t:
+                            smaller_t = t
+                            color = polygon.blihn_pmong(value[0], value[1], smaller_t, lamps, sensibility, environment)
+
 
             image.append(color)
 

@@ -12,7 +12,7 @@ def main():
     # This is an example of how you can use this module, creating objects and displaying them on an image.
 
     #image size
-    image_size = [70, 70]
+    image_size = [200, 200]
 
     cube = [Cube(center=(2, -5, 2), side_size=5)]
 
@@ -28,7 +28,7 @@ def main():
     # Creating environment
     environment = Environment(intensity=0.1, color=[40, 100, 150])
 
-    for i in range(10, 150, 25):
+    for i in range(0, 150, 50):
 
         # Starting Ray-Tracing
         rays = Ray(point_e=[i, -i, 20], distance=20, top=20, bottom=-20, right=20, left=-20)
